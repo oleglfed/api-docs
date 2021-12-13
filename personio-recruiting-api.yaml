@@ -1,4 +1,6 @@
 openapi: 3.0.0
+x-readme:
+  samples-enabled: false
 info:
   version: '1.0'
   title: Recruiting
@@ -335,7 +337,6 @@ components:
             See https://mycompany.personio.de/configuration/recruiting/tags
           items:
             type: string
-            example: blah
           example: test
         files:
           description: |-
