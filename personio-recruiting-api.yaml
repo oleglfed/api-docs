@@ -1,6 +1,4 @@
 openapi: 3.0.0
-x-readme:
-  samples-enabled: false
 info:
   version: '1.0'
   title: Recruiting
@@ -43,6 +41,8 @@ paths:
                 $ref: '#/components/schemas/XmlResponse'
   /v1/recruiting/applications:
     post:
+      x-readme:
+        samples-enabled: false
       tags: 
         - Application
       summary: Creating applications in Personio
