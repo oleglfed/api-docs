@@ -40,6 +40,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/XmlResponse'
   /v1/recruiting/applications:
+    x-readme:
+      samples-enabled: false
     post:
       x-readme:
         samples-enabled: false
