@@ -1019,7 +1019,6 @@ paths:
             items:
               type: integer
             example: ?employees[]=1&employees[]=2
-            default: null
           allowReserved: true
         - name: limit
           in: query
