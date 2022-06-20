@@ -604,14 +604,14 @@ components:
       properties:
         eq:
           type: string
-          example: "The string to exactly match the property value"
+          example: null
           description: "The string to exactly match the property value"
     NotEqualsStringFilter:
       type: object
       properties:
         eq:
           type: string
-          example: "The string to NOT match the property value"
+          example: null
           description: "The string to NOT match the property value"
 
     EqualsIntegerFilter:
@@ -619,56 +619,56 @@ components:
       properties:
         eq:
           type: integer
-          example: 1
+          example: null
           description: "The integer to exactly match the property value"
     NotEqualsIntegerFilter:
       type: object
       properties:
         eq:
           type: integer
-          example: 1
+          example: null
           description: "The integer to NOT match the property value"
     GreaterThanIntegerFilter:
       type: object
       properties:
         gt:
           type: integer
-          example: 1
+          example: null
           description: "The integer to be greater then the property value"
     GreaterThanEqualIntegerFilter:
       type: object
       properties:
         gte:
           type: integer
-          example: 1
+          example: null
           description: "The integer to be greater equal then the property value"
     LessThanIntegerFilter:
       type: object
       properties:
         lt:
           type: integer
-          example: 10
+          example: null
           description: "The integer to be less then the property value"
     LessThanEqualIntegerFilter:
       type: object
       properties:
         lt:
           type: integer
-          example: 10
+          example: null
           description: "The integer to be less equal then the property value"
     InIntegerFilter:
       type: object
       properties:
         eq:
           type: integer
-          example: 3,2,1
+          example: null
           description: "The the comma separted list of integers to match the property values"
     NotInIntegerFilter:
       type: object
       properties:
         eq:
           type: integer
-          example: 1,2,3
+          example: null
           description: "The the comma separted list of integers to NOT match the property values"
 
 
@@ -677,56 +677,56 @@ components:
       properties:
         eq:
           type: string
-          example: "2022-01-01"
+          example: null
           description: "The date to exactly match the property value"
     NotEqualsDateFilter:
       type: object
       properties:
         eq:
           type: string
-          example: "2022-01-01"
+          example: null
           description: "The date to NOT match the property value"
     GreaterThanDateFilter:
       type: object
       properties:
         gt:
           type: string
-          example: "2022-01-01"
+          example: null
           description: "The date to be greater then the property value"
     GreaterThanEqualDateFilter:
       type: object
       properties:
         gte:
           type: string
-          example: "2022-01-01"
+          example: null
           description: "The date to be greater equal then the property value"
     LessThanDateFilter:
       type: object
       properties:
         lt:
           type: string
-          example: "2022-01-01"
+          example: null
           description: "The date to be less then the property value"
     LessThanEqualDateFilter:
       type: object
       properties:
         lt:
           type: string
-          example: "2022-01-01"
+          example: null
           description: "The date to be less equal then the property value"
     InDateFilter:
       type: object
       properties:
         eq:
           type: string
-          example: "2022-01-01,2022-02-02"
+          example: null
           description: "The the comma separted list of dates to match the property values"
     NotInDateFilter:
       type: object
       properties:
         eq:
           type: string
-          example: "2022-01-01,2022-02-02"
+          example: null
           description: "The the comma separted list of dates to NOT match the property values"
 
     # Exceptions =====================================================================
