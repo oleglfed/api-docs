@@ -22,15 +22,16 @@ paths:
             minimum: 1
             maximum: 200
             default: 10
-          description: The amount of employees to be returned per one request
+          description: The amount of employees to be returned per one request.
         - in: query
           name: cursor
           required: false
           schema:
             type: string
-          description: The pagination cursor to navigate over the employees set
+          description: The pagination cursor to navigate over the employees set.
         - in: query
           name: filter
+          description: The filter object for scoping down the response to match specific criteria.
           schema:
             $ref: '#/components/schemas/UserFilter'
       security:
@@ -43,7 +44,7 @@ paths:
         "200":
           $ref: '#/components/responses/EmployeesResponse'
         "500":
-          description: Something went wrong
+          description: Something went wrong.
     post:
       security:
         - OAuth2:
@@ -60,7 +61,7 @@ paths:
               $ref: '#/components/schemas/SingleEmployeeRequest'
       responses:
         "201":
-          description: Created employee ID
+          description: Created employee ID.
           content:
             application/json:
               schema:
@@ -70,7 +71,7 @@ paths:
         "422":
           $ref: '#/components/responses/422_response'
         "500":
-          description: Something went wrong
+          description: Something went wrong.
 
   /employees/{employee_id}:
     get:
@@ -89,7 +90,7 @@ paths:
       description: 'Show employee'
       responses:
         "200":
-          description: Single employee
+          description: Single employee.
           content:
             application/json:
               schema:
@@ -97,7 +98,7 @@ paths:
         "404":
           $ref: '#/components/responses/404_response'
         "500":
-          description: Something went wrong
+          description: Something went wrong.
     patch:
       security:
         - OAuth2:
@@ -114,7 +115,7 @@ paths:
       description: 'Patch employee'
       responses:
         "200":
-          description: Updated employee
+          description: Updated employee.
           content:
             application/json:
               schema:
@@ -122,7 +123,7 @@ paths:
         "404":
           $ref: '#/components/responses/404_response'
         "500":
-          description: Something went wrong
+          description: Something went wrong.
     delete:
       security:
         - OAuth2:
@@ -135,21 +136,21 @@ paths:
           schema:
             type: integer
           required: true
-          description: The employee ID
+          description: The employee ID.
       description: 'Delete employee'
       responses:
         "204":
-          description: Employee is deleted
+          description: Employee is deleted.
         "404":
           $ref: '#/components/responses/404_response'
         "500":
-          description: Something went wrong
+          description: Something went wrong.
 
 
 components:
   schemas:
     EmployeesResponse:
-      description: Multiple employees response with the paginaton
+      description: Multiple employees response with the paginaton.
       type: object
       properties:
         data:
@@ -162,75 +163,75 @@ components:
             links:
               $ref: '#/components/schemas/Pagination'
     SingleEmployeeResponse:
-      description: Single employee response
+      description: Single employee response.
       type: object
       properties:
         id:
           type: integer
           example: 1
-          description: The Id of the employee
+          description: The Id of the employee.
         first_name:
           type: string
           example: John
-          description: The string value to represent the employee first name
+          description: The string value to represent the employee first name.
         last_name:
           type: string
           example: Smith
-          description: The string value to represent the employee last name
+          description: The string value to represent the employee last name.
         email:
           type: string
           example: johm.smith@demo.com
-          description: The string value to represent the employee email
+          description: The string value to represent the employee email.
         gender:
           type: string
           example: male
           enum: [male, female, diverse, undefined]
-          description: The enum value to represent the employee gender
+          description: The enum value to represent the employee gender.
         position:
           type: string
           example: developer
-          description: The string value to represent the employee position
+          description: The string value to represent the employee position.
         status:
           type: string
           enum: [onboarding, active, leave, inactive]
           example: active
-          description: The enum value to represent the employee status
+          description: The enum value to represent the employee status.
         employment_type:
           type: string
-          example: John
+          example: Internal
         weekly_working_hours:
-          type: string
-          example: Smith
+          type: integer
+          example: 40
         hire_date:
           type: string
-          example: johm.smith@demo.com
+          example: 2022-01-01
         contract_end_date:
           type: string
-          example: male
+          example: 2022-01-01
         termination_date:
           type: string
-          example: developer
+          example: null
         termination_type:
           type: string
-          example: active
+          example: null
         termination_reason:
           type: string
-          example: active
+          example: null
         probation_period_end:
           type: string
-          example: male
+          example: 2022-01-01
         created_at:
           type: string
-          example: developer
+          example: 2022-01-01
         last_modified_at:
           type: string
-          example: active
+          example: 2022-01-01
         last_working_day:
           type: string
-          example: active
+          example: 2022-01-01
         profile_picture:
           type: string
-          example: active
+          example: "https://api.personio.de/v2/employees/1/profile-picture"
         # Verify that salary data should be included into the employee object
         fix_salary:
           type: number
@@ -389,7 +390,7 @@ components:
           example: "string"
 
     SingleEmployeeCreatedResponse:
-      description: Single employee response
+      description: Single employee response.
       allOf:
         - $ref: '#/components/schemas/SingleEmployeeResponse'
         - type: object
@@ -402,7 +403,7 @@ components:
                   example: true
 
     SingleEmployeeRequest:
-      description: The employee create/update request
+      description: The employee create/update request.
       type: object
       properties:
         first_name:
@@ -455,7 +456,7 @@ components:
         probation_period:
           type: integer
           example: 6
-          description: The amount of monthes the probation period for the employee
+          description: The amount of monthes the probation period for the employee.
         contract_end_date:
           type: string
           format: "Y-m-d"
@@ -531,55 +532,202 @@ components:
       properties:
         age:
           $ref: '#/components/schemas/DefaultIntgerFilters'
-        name:
+        first_name:
           $ref: '#/components/schemas/DefaultStringFilters'
+        last_name:
+          $ref: '#/components/schemas/DefaultStringFilters'
+        email:
+          $ref: '#/components/schemas/DefaultStringFilters'
+        gender:
+          $ref: '#/components/schemas/DefaultStringFilters'
+        position:
+          $ref: '#/components/schemas/DefaultStringFilters'
+        status:
+          $ref: '#/components/schemas/DefaultStringFilters'
+        hire_date:
+          $ref: '#/components/schemas/DefaultDateFilters'
+        contract_end_date:
+          $ref: '#/components/schemas/DefaultDateFilters'
+        termination_date:
+          $ref: '#/components/schemas/DefaultDateFilters'
+        probation_period_end:
+          $ref: '#/components/schemas/DefaultDateFilters'
+        created_at:
+          $ref: '#/components/schemas/DefaultDateFilters'
+        last_modified_at:
+          $ref: '#/components/schemas/DefaultDateFilters'
+        office_id:
+          $ref: '#/components/schemas/DefaultReletionalFilters'
+        team_id:
+          $ref: '#/components/schemas/DefaultReletionalFilters'
+        subcompay_id:
+          $ref: '#/components/schemas/DefaultReletionalFilters'
+        supervisor_id:
+          $ref: '#/components/schemas/DefaultReletionalFilters'
+        department_id:
+          $ref: '#/components/schemas/DefaultReletionalFilters'
 
+    DefaultReletionalFilters:
+      oneOf:
+        - $ref: '#/components/schemas/EqualsIntegerFilter'
+        - $ref: '#/components/schemas/NotEqualsIntegerFilter'
+        - $ref: '#/components/schemas/InIntegerFilter'
+        - $ref: '#/components/schemas/NotInIntegerFilter'
     DefaultIntgerFilters:
       oneOf:
         - $ref: '#/components/schemas/EqualsIntegerFilter'
+        - $ref: '#/components/schemas/NotEqualsIntegerFilter'
         - $ref: '#/components/schemas/GreaterThanIntegerFilter'
+        - $ref: '#/components/schemas/GreaterThanEqualIntegerFilter'
         - $ref: '#/components/schemas/LessThanIntegerFilter'
+        - $ref: '#/components/schemas/LessThanEqualIntegerFilter'
+        - $ref: '#/components/schemas/InIntegerFilter'
+        - $ref: '#/components/schemas/NotInIntegerFilter'
     DefaultStringFilters:
       oneOf:
         - $ref: '#/components/schemas/EqualsStringFilter'
-        - $ref: '#/components/schemas/LikeStringFilter'
+        - $ref: '#/components/schemas/NotEqualsStringFilter'
+
+    DefaultDateFilters:
+      oneOf:
+        - $ref: '#/components/schemas/EqualsDateFilter'
+        - $ref: '#/components/schemas/NotEqualsDateFilter'
+        - $ref: '#/components/schemas/GreaterThanDateFilter'
+        - $ref: '#/components/schemas/GreaterThanEqualDateFilter'
+        - $ref: '#/components/schemas/LessThanDateFilter'
+        - $ref: '#/components/schemas/LessThanEqualDateFilter'
+        - $ref: '#/components/schemas/InDateFilter'
+        - $ref: '#/components/schemas/NotInDateFilter'
 
     EqualsStringFilter:
       type: object
       properties:
         eq:
           type: string
-    LikeStringFilter:
+          example: "The string to exactly match the property value"
+          description: "The string to exactly match the property value"
+    NotEqualsStringFilter:
       type: object
       properties:
-        like:
+        eq:
           type: string
+          example: "The string to NOT match the property value"
+          description: "The string to NOT match the property value"
 
     EqualsIntegerFilter:
       type: object
       properties:
         eq:
           type: integer
+          example: 1
+          description: "The integer to exactly match the property value"
+    NotEqualsIntegerFilter:
+      type: object
+      properties:
+        eq:
+          type: integer
+          example: 1
+          description: "The integer to NOT match the property value"
     GreaterThanIntegerFilter:
       type: object
       properties:
         gt:
           type: integer
+          example: 1
+          description: "The integer to be greater then the property value"
     GreaterThanEqualIntegerFilter:
       type: object
       properties:
         gte:
           type: integer
+          example: 1
+          description: "The integer to be greater equal then the property value"
     LessThanIntegerFilter:
       type: object
       properties:
         lt:
           type: integer
+          example: 10
+          description: "The integer to be less then the property value"
     LessThanEqualIntegerFilter:
       type: object
       properties:
         lt:
           type: integer
+          example: 10
+          description: "The integer to be less equal then the property value"
+    InIntegerFilter:
+      type: object
+      properties:
+        eq:
+          type: integer
+          example: 3,2,1
+          description: "The the comma separted list of integers to match the property values"
+    NotInIntegerFilter:
+      type: object
+      properties:
+        eq:
+          type: integer
+          example: 1,2,3
+          description: "The the comma separted list of integers to NOT match the property values"
+
+
+    EqualsDateFilter:
+      type: object
+      properties:
+        eq:
+          type: string
+          example: "2022-01-01"
+          description: "The date to exactly match the property value"
+    NotEqualsDateFilter:
+      type: object
+      properties:
+        eq:
+          type: string
+          example: "2022-01-01"
+          description: "The date to NOT match the property value"
+    GreaterThanDateFilter:
+      type: object
+      properties:
+        gt:
+          type: string
+          example: "2022-01-01"
+          description: "The date to be greater then the property value"
+    GreaterThanEqualDateFilter:
+      type: object
+      properties:
+        gte:
+          type: string
+          example: "2022-01-01"
+          description: "The date to be greater equal then the property value"
+    LessThanDateFilter:
+      type: object
+      properties:
+        lt:
+          type: string
+          example: "2022-01-01"
+          description: "The date to be less then the property value"
+    LessThanEqualDateFilter:
+      type: object
+      properties:
+        lt:
+          type: string
+          example: "2022-01-01"
+          description: "The date to be less equal then the property value"
+    InDateFilter:
+      type: object
+      properties:
+        eq:
+          type: string
+          example: "2022-01-01,2022-02-02"
+          description: "The the comma separted list of dates to match the property values"
+    NotInDateFilter:
+      type: object
+      properties:
+        eq:
+          type: string
+          example: "2022-01-01,2022-02-02"
+          description: "The the comma separted list of dates to NOT match the property values"
 
     # Exceptions =====================================================================
     400_Exception:
@@ -642,9 +790,9 @@ components:
       description: 422 Unprocessable Entity
       x-papi-gateway-errors:
         - code: employees.wrong_format
-          description: The format of the field is not valid
+          description: The format of the field is not valid.
         - code: employees.wrong_type
-          description: The type of the field is not valid
+          description: The type of the field is not valid.
       type: object
       properties:
         trace_id:
