@@ -120,6 +120,870 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SingleEmployeeResponse'
+        "400":
+          $ref: '#/components/responses/400_response'
+        "404":
+          $ref: '#/components/responses/404_response'
+        "422":
+          $ref: '#/components/responses/422_response'
+        "500":
+          description: Something went wrong.
+    delete:
+      security:
+        - OAuth2:
+            - employees:write
+      tags:
+        - Employees
+      parameters:
+        - in: path
+          name: employee_id
+          schema:
+            type: integer
+          required: true
+          description: The employee ID.
+      description: 'Delete employee'
+      responses:
+        "204":
+          description: Employee is deleted.
+        "404":
+          $ref: '#/components/responses/404_response'
+        "500":
+          description: Something went wrong.
+
+
+components:
+  schemas:
+    EmployeesResponse:
+      description: Multiple employees response with the paginaton.
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SingleEmployeeResponse'
+        _meta:
+          type: object
+          properties:
+            links:
+              $ref: '#/components/schemas/Pagination'
+    SingleEmployeeResponse:
+      description: Single employee response.
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+          description: The Id of the employee.
+        first_name:
+          type: string
+          example: John
+          description: The string value to represent the employee first name.
+        last_name:
+          type: string
+          example: Smith
+          description: The string value to represent the employee last name.
+        email:
+          type: string
+          example: johm.smith@demo.com
+          description: The string value to represent the employee email.
+        gender:
+          type: string
+          example: male
+          enum: [male, female, diverse, undefined]
+          description: The enum value to represent the employee gender.
+        position:
+          type: string
+          example: developer
+          description: The string value to represent the employee position.
+        status:
+          type: string
+          enum: [onboarding, active, leave, inactive]
+          example: active
+          description: The enum value to represent the employee status.
+        employment_type:
+          type: string
+          example: Internal
+        weekly_working_hours:
+          type: integer
+          example: 40
+        hire_date:
+          type: string
+          example: 2022-01-01
+        contract_end_date:
+          type: string
+          example: 2022-01-01
+        termination_date:
+          type: string
+          example: null
+        termination_type:
+          type: string
+          example: null
+        termination_reason:
+          type: string
+          example: null
+        probation_period_end:
+          type: string
+          example: 2022-01-01
+        created_at:
+          type: string
+          example: 2022-01-01
+        last_modified_at:
+          type: string
+          example: 2022-01-01
+        last_working_day:
+          type: string
+          example: 2022-01-01
+        profile_picture:
+          type: string
+          example: "https://api.personio.de/v2/employees/1/profile-picture"
+        # Verify that salary data should be included into the employee object
+        fix_salary:
+          type: number
+          example: 1000.0
+        fix_salary_interval:
+          type: string
+          example: monthly
+        hourly_salary:
+          type: number
+          example: 90.0
+        vacation_day_balance:
+          type: number
+          example: 26.0
+        department:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+        office:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+        team:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+        subcompay:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+        supervisor:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+        cost_centers:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+        holiday_calendar:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+        work_schedule:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+        absence_entitlement:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+        custom_attributes:
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/DynamicAttributeTshirt'
+              - $ref: '#/components/schemas/DynamicAttributeIban'
+        _meta:
+          type: object
+          properties:
+            links:
+              type: object
+              properties:
+                self:
+                  type: string
+                  example: "https://api.personio.de/v2/employees/12345"
+                department:
+                  type: string
+                  example: "https://api.personio.de/v2/departments/1"
+                office:
+                  type: string
+                  example: "https://api.personio.de/v2/offices/1"
+                team:
+                  type: string
+                  example: "https://api.personio.de/v2/teams/1"
+                subcompany:
+                  type: string
+                  example: "https://api.personio.de/v2/subcompanies/1"
+                supervisor:
+                  type: string
+                  example: "https://api.personio.de/v2/employees/1"
+                cost_centers:
+                  type: object
+                  properties:
+                    1:
+                      type: string
+                      example: "https://api.personio.de/v2/cost-centers/1"
+                absence_entitlement:
+                  type: object
+                  properties:
+                    1:
+                      type: string
+                      example: "https://api.personio.de/v2/absence-entitlements/1"
+                holiday_calendar:
+                  type: string
+                  example: "https://api.personio.de/v2/holiday-calendars/1"
+                work_schedule:
+                  type: string
+                  example: "https://api.personio.de/v2/work-schedules/1"
+
+    DynamicAttributeTshirt:
+      type: object
+      properties:
+        id:
+          type: string
+          example: dynamic_123
+        label:
+          type: string
+          example: "T-shirt size"
+        value:
+          type: string
+          example: "XL"
+        mapped_id:
+          type: string
+          example: null
+        type:
+          type: string
+          example: "string"
+    DynamicAttributeIban:
+      type: object
+      properties:
+        id:
+          type: string
+          example: dynamic_456
+        label:
+          type: string
+          example: "IBAN"
+        value:
+          type: string
+          example: "AL35202111090000000001234567"
+        mapped_id:
+          type: string
+          example: "iban"
+        type:
+          type: string
+          example: "string"
+
+    SingleEmployeeCreatedResponse:
+      description: Single employee response.
+      allOf:
+        - $ref: '#/components/schemas/SingleEmployeeResponse'
+        - type: object
+          properties:
+            _meta:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+
+    SingleEmployeeRequest:
+      description: The employee create/update request.
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Smith
+        email:
+          type: string
+          example: john.smith@demo.com
+        gender:
+          type: string
+          enum: [male, female, diverse, undefined]
+        position:
+          type: string
+          example: CEO
+        status:
+          type: string
+          enum: [onboarding, active, leave, inactive]
+          example: CEO
+        hire_date:
+          type: string
+          example: "2022-01-01"
+          format: "Y-m-d"
+        weekly_hours:
+          type: integer
+          example: 40
+        employment_type:
+          type: string
+          enum: [internal, external]
+        termination_type:
+          type: string
+          enum: [employee-quit, fired, contract-expired, death, termination-agreement, subcompany-switch, irrevocable-suspension, cancellation, collective-agreement, settlement-agreement, retirement, court-settlement]
+        termination_reason:
+          type: string
+          example: "The employee quit"
+        termination_date:
+          type: string
+          format: "Y-m-d"
+          example: "2022-01-01"
+        termination_at:
+          type: string
+          format: "Y-m-d"
+          example: "2022-01-01"
+        last_working_day:
+          type: string
+          format: "Y-m-d"
+          example: "2022-01-01"
+        probation_period:
+          type: integer
+          example: 6
+          description: The amount of monthes the probation period for the employee.
+        contract_end_date:
+          type: string
+          format: "Y-m-d"
+          example: "2022-01-01"
+        team:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: "IAM"
+        subcompany:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: "ACME"
+        department:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: "IT"
+        office:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: "Barcelona"
+        supervisor:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+        custom_attributes:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "dynamic_123"
+              value:
+                type: string
+                example: "XL"
+    Pagination:
+      description: Pagination
+      type: object
+      properties:
+        self:
+          type: string
+          example: "https://api.personio.de/v2/employees?cursor=<current-cursor>"
+        first:
+          type: string
+          example: "https://api.personio.de/v2/employees?limit=200"
+        next:
+          type: string
+          example: "https://api.personio.de/v2/employees?cursor=<next-cursor>"
+    UserFilter:
+      type: object
+      properties:
+        age:
+          $ref: '#/components/schemas/DefaultIntgerFilters'
+        first_name:
+          $ref: '#/components/schemas/DefaultStringFilters'
+        last_name:
+          $ref: '#/components/schemas/DefaultStringFilters'
+        email:
+          $ref: '#/components/schemas/DefaultStringFilters'
+        gender:
+          $ref: '#/components/schemas/DefaultStringFilters'
+        position:
+          $ref: '#/components/schemas/DefaultStringFilters'
+        status:
+          $ref: '#/components/schemas/DefaultStringFilters'
+        hire_date:
+          $ref: '#/components/schemas/DefaultDateFilters'
+        contract_end_date:
+          $ref: '#/components/schemas/DefaultDateFilters'
+        termination_date:
+          $ref: '#/components/schemas/DefaultDateFilters'
+        probation_period_end:
+          $ref: '#/components/schemas/DefaultDateFilters'
+        created_at:
+          $ref: '#/components/schemas/DefaultDateFilters'
+        last_modified_at:
+          $ref: '#/components/schemas/DefaultDateFilters'
+        office_id:
+          $ref: '#/components/schemas/DefaultReletionalFilters'
+        team_id:
+          $ref: '#/components/schemas/DefaultReletionalFilters'
+        subcompay_id:
+          $ref: '#/components/schemas/DefaultReletionalFilters'
+        supervisor_id:
+          $ref: '#/components/schemas/DefaultReletionalFilters'
+        department_id:
+          $ref: '#/components/schemas/DefaultReletionalFilters'
+
+    DefaultReletionalFilters:
+      oneOf:
+        - $ref: '#/components/schemas/EqualsIntegerFilter'
+        - $ref: '#/components/schemas/NotEqualsIntegerFilter'
+        - $ref: '#/components/schemas/InIntegerFilter'
+        - $ref: '#/components/schemas/NotInIntegerFilter'
+    DefaultIntgerFilters:
+      oneOf:
+        - $ref: '#/components/schemas/EqualsIntegerFilter'
+        - $ref: '#/components/schemas/NotEqualsIntegerFilter'
+        - $ref: '#/components/schemas/GreaterThanIntegerFilter'
+        - $ref: '#/components/schemas/GreaterThanEqualIntegerFilter'
+        - $ref: '#/components/schemas/LessThanIntegerFilter'
+        - $ref: '#/components/schemas/LessThanEqualIntegerFilter'
+        - $ref: '#/components/schemas/InIntegerFilter'
+        - $ref: '#/components/schemas/NotInIntegerFilter'
+    DefaultStringFilters:
+      oneOf:
+        - $ref: '#/components/schemas/EqualsStringFilter'
+        - $ref: '#/components/schemas/NotEqualsStringFilter'
+
+    DefaultDateFilters:
+      oneOf:
+        - $ref: '#/components/schemas/EqualsDateFilter'
+        - $ref: '#/components/schemas/NotEqualsDateFilter'
+        - $ref: '#/components/schemas/GreaterThanDateFilter'
+        - $ref: '#/components/schemas/GreaterThanEqualDateFilter'
+        - $ref: '#/components/schemas/LessThanDateFilter'
+        - $ref: '#/components/schemas/LessThanEqualDateFilter'
+        - $ref: '#/components/schemas/InDateFilter'
+        - $ref: '#/components/schemas/NotInDateFilter'
+
+    EqualsStringFilter:
+      type: object
+      properties:
+        eq:
+          type: string
+          example: null
+          description: "The string to exactly match the property value"
+    NotEqualsStringFilter:
+      type: object
+      properties:
+        eq:
+          type: string
+          example: null
+          description: "The string to NOT match the property value"
+
+    EqualsIntegerFilter:
+      type: object
+      properties:
+        eq:
+          type: integer
+          example: null
+          description: "The integer to exactly match the property value"
+    NotEqualsIntegerFilter:
+      type: object
+      properties:
+        eq:
+          type: integer
+          example: null
+          description: "The integer to NOT match the property value"
+    GreaterThanIntegerFilter:
+      type: object
+      properties:
+        gt:
+          type: integer
+          example: null
+          description: "The integer to be greater then the property value"
+    GreaterThanEqualIntegerFilter:
+      type: object
+      properties:
+        gte:
+          type: integer
+          example: null
+          description: "The integer to be greater equal then the property value"
+    LessThanIntegerFilter:
+      type: object
+      properties:
+        lt:
+          type: integer
+          example: null
+          description: "The integer to be less then the property value"
+    LessThanEqualIntegerFilter:
+      type: object
+      properties:
+        lt:
+          type: integer
+          example: null
+          description: "The integer to be less equal then the property value"
+    InIntegerFilter:
+      type: object
+      properties:
+        eq:
+          type: integer
+          example: null
+          description: "The the comma separted list of integers to match the property values"
+    NotInIntegerFilter:
+      type: object
+      properties:
+        eq:
+          type: integer
+          example: null
+          description: "The the comma separted list of integers to NOT match the property values"
+
+
+    EqualsDateFilter:
+      type: object
+      properties:
+        eq:
+          type: string
+          example: null
+          description: "The date to exactly match the property value"
+    NotEqualsDateFilter:
+      type: object
+      properties:
+        eq:
+          type: string
+          example: null
+          description: "The date to NOT match the property value"
+    GreaterThanDateFilter:
+      type: object
+      properties:
+        gt:
+          type: string
+          example: null
+          description: "The date to be greater then the property value"
+    GreaterThanEqualDateFilter:
+      type: object
+      properties:
+        gte:
+          type: string
+          example: null
+          description: "The date to be greater equal then the property value"
+    LessThanDateFilter:
+      type: object
+      properties:
+        lt:
+          type: string
+          example: null
+          description: "The date to be less then the property value"
+    LessThanEqualDateFilter:
+      type: object
+      properties:
+        lt:
+          type: string
+          example: null
+          description: "The date to be less equal then the property value"
+    InDateFilter:
+      type: object
+      properties:
+        eq:
+          type: string
+          example: null
+          description: "The the comma separted list of dates to match the property values"
+    NotInDateFilter:
+      type: object
+      properties:
+        eq:
+          type: string
+          example: null
+          description: "The the comma separted list of dates to NOT match the property values"
+
+    # Exceptions =====================================================================
+    400_Exception:
+      description: 400 Bad request exception
+      x-papi-gateway-errors:
+        - code: employees.invalid_parameters
+          description: The invalid parameters usually means that some of the request parameters are not valid.
+        - code: employees.missing_parameters
+          description: The missing parameters usually means that some of the request requitred parameters are not present.
+      type: object
+      properties:
+        trace_id:
+          type: string
+          example: aswo3f-a202lfso-312123sld-1230ddd
+        timestamp:
+          type: string
+          example: "2021-05-28T11:17:30+00:00"
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+                example: Bad request
+              detail:
+                type: string
+                example: Problems parsing JSON
+              type:
+                type: string
+                example: 'https://developer.personio.de/reference/errors#employees.invalid_parameters'
+    404_Exception:
+      description: Not found exception
+      x-papi-gateway-errors:
+        - code: generic.not_found
+          description: The requested resource is not found
+      type: object
+      properties:
+        trace_id:
+          type: string
+          example: aswo3f-a202lfso-312123sld-1230ddd
+        timestamp:
+          type: string
+          example: "2021-05-28T11:17:30+00:00"
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+                example: Not found
+              detail:
+                type: string
+                example: Employee with provided ID is not found
+              type:
+                type: string
+                example: 'https://developer.personio.de/reference/errors#generic.not_found'
+    422_Exception:
+      description: 422 Unprocessable Entity
+      x-papi-gateway-errors:
+        - code: employees.wrong_format
+          description: The format of the field is not valid.
+        - code: employees.wrong_type
+          description: The type of the field is not valid.
+      type: object
+      properties:
+        trace_id:
+          type: string
+          example: aswo3f-a202lfso-312123sld-1230ddd
+        timestamp:
+          type: string
+          example: "2021-05-28T11:17:30+00:00"
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+                example: Invalid format
+              detail:
+                type: string
+                example: Provided date has invalid format
+              type:
+                type: string
+                example: 'https://developer.personio.de/reference/errors#employees.invalid_date_format'
+              _meta:
+                type: object
+                properties:
+                  value:
+                    type: string
+                    example: '24.01.2022'
+                  field:
+                    type: string
+                    example: 'termination_date'
+                  format:
+                    type: string
+                    example: 'yyyy-mm-dd'
+
+  # Responses ============================================================================
+  responses:
+    EmployeesResponse:
+      description: A list of employees
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EmployeesResponse'
+    400_response:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/400_Exception'
+    404_response:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/404_Exception'
+    422_response:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/422_Exception'
+
+  # Security ============================================================================
+  securitySchemes:
+    OAuth2:
+      type: oauth2openapi: 3.0.0
+
+info:
+  version: "2.0"
+  title: Employees API
+  description: API to work with employee domain
+  x-papi-gateway:
+    service-url: http://employees-data-service
+
+servers:
+  - url: https://api.personio.de
+
+paths:
+  /employees:
+    get:
+      parameters:
+        - in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 10
+          description: The amount of employees to be returned per one request.
+        - in: query
+          name: cursor
+          required: false
+          schema:
+            type: string
+          description: The pagination cursor to navigate over the employees set.
+        - in: query
+          name: filter
+          description: The filter object for scoping down the response to match specific criteria.
+          schema:
+            $ref: '#/components/schemas/UserFilter'
+      security:
+        - OAuth2:
+            - employees:read
+      tags:
+        - Employees
+      description: 'List of employees'
+      responses:
+        "200":
+          $ref: '#/components/responses/EmployeesResponse'
+        "500":
+          description: Something went wrong.
+    post:
+      security:
+        - OAuth2:
+            - employees:write
+      tags:
+        - Employees
+      description: 'Create new employee'
+      requestBody:
+        description: 'The new employee data'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SingleEmployeeRequest'
+      responses:
+        "201":
+          description: Created employee ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleEmployeeCreatedResponse'
+        "400":
+          $ref: '#/components/responses/400_response'
+        "422":
+          $ref: '#/components/responses/422_response'
+        "500":
+          description: Something went wrong.
+
+  /employees/{employee_id}:
+    get:
+      security:
+        - OAuth2:
+            - employees:read
+      tags:
+        - Employees
+      parameters:
+        - in: path
+          name: employee_id
+          schema:
+            type: integer
+          required: true
+          description: The employee ID
+      description: 'Show employee'
+      responses:
+        "200":
+          description: Single employee.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleEmployeeResponse'
+        "404":
+          $ref: '#/components/responses/404_response'
+        "500":
+          description: Something went wrong.
+    patch:
+      security:
+        - OAuth2:
+            - employees:write
+      tags:
+        - Employees
+      parameters:
+        - in: path
+          name: employee_id
+          schema:
+            type: integer
+          required: true
+          description: The employee ID
+      description: 'Patch employee'
+      responses:
+        "200":
+          description: Updated employee.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleEmployeeResponse'
         "404":
           $ref: '#/components/responses/404_response'
         "500":
@@ -859,6 +1723,13 @@ components:
   securitySchemes:
     OAuth2:
       type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.persoio.de/v2/auth/token
+          scopes:
+            employees:read: Grants read access
+            employees:write: Grants write access
+
       flows:
         clientCredentials:
           tokenUrl: https://api.persoio.de/v2/auth/token
